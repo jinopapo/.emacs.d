@@ -1,7 +1,6 @@
 ;;anything
 (let ((original-browse-url-browser-function browse-url-browser-function))
-  ;(el-get 'sync '(anything))
-  (require 'anything-startup)
+  (el-get 'sync '(anything))
   (require 'anything-config)
   (anything-set-anything-command-map-prefix-key
    'anything-command-map-prefix-key "C-c C-<SPC>")
