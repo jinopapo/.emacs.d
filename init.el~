@@ -1,0 +1,387 @@
+;;; ロードパスの追加
+(setq load-path (append
+                 '("~/.emacs.d")
+                 load-path))
+;;el-get
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get/")
+(setq el-get-dir "~/.emacs.d/el-get/el-get/")
+(require 'el-get)
+;; マイレシピの格納場所
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/el-get/recipes")
+
+;;package.el
+(require 'package)
+;; package.elでelispを入れるdirectoryの設定
+(setq package-user-dir "~/.emacs.d/elisp/elpa/")
+;; MELPAを追加
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+
+;;; Localeに合わせた環境の設定
+(set-locale-environment nil)
+;; C-hでバックスペース
+;; 2012-03-18
+(keyboard-translate ?\C-h ?\C-?)
+;; 基本
+(require 'redo+)
+(define-key global-map (kbd "M-?") 'help-for-help)        ; ヘルプ
+(define-key global-map (kbd "C-z") 'undo)                 ; undo
+(define-key global-map (kbd "M-z") 'redo)                 ; redo
+(define-key global-map (kbd "C-c i") 'indent-region)      ; インデント
+(define-key global-map (kbd "C-c C-i") 'hippie-expand)    ; 補完
+(define-key global-map (kbd "C-c ;") 'comment-dwim)       ; コメントアウト
+(define-key global-map (kbd "M-C-g") 'grep)               ; grep
+(define-key global-map (kbd "C-[ M-C-g") 'goto-line)      ; 指定行へ移動
+(define-key global-map (kbd "C-c C-s") 'replace-string)   ; 文字の置換
+(define-key global-map (kbd "C-m") 'newline-and-indent)   ; 文字の置換
+(define-key global-map (kbd "C-j") 'newline)   ; 文字の置換
+(add-hook 'before-save-hook 'delete-trailing-whitespace) ;空白削除
+(global-set-key "\M-w" 'clipboard-kill-ring-save)  ; クリップボードにコピー
+(global-set-key "\C-w" 'clipboard-kill-region)     ; 切り取ってクリップボードへ
+;デザイン
+(setq default-frame-alist
+      (append
+       (list
+        '(background-color . "#221122")
+        '(foreground-color . "#F0F8FF")
+        '(cursor-color . "#FFFFFF")
+        )
+       default-frame-alist)
+      )
+(defface hlline-face
+  '((((class color)
+      (background dark))
+     (:background "#191970"))
+    (((class color)
+      (background light))
+     (:background "ForestGreen"))
+    (t
+     ()))
+  "*Face used by hl-line.")
+(setq hl-line-face 'hlline-face)
+
+;; (setq hl-line-face 'underline)
+;; ウィンドウ移動
+;; 2011-02-17
+;; 次のウィンドウへ移動
+(define-key global-map (kbd "C-M-n") 'next-multiframe-window)
+;; 前のウィンドウへ移動
+(define-key global-map (kbd "C-M-p") 'previous-multiframe-window)
+;;; 画像ファイルを表示
+(auto-image-file-mode t)
+;;; メニューバーを消す
+(menu-bar-mode -1)
+;;; ツールバーを消す
+(tool-bar-mode -1)
+;;; カーソルの点滅を止める
+(blink-cursor-mode 0)
+;;; 対応する括弧を光らせる。
+(show-paren-mode 1)
+;;; ウィンドウ内に収まらないときだけ括弧内も光らせる。
+(setq show-paren-style 'mixed)
+;; 空白や長すぎる行を視覚化する。
+(require 'whitespace)
+;;バックアップを作らない
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+;; space-markとtab-mark、それからspacesとtrailingを対象とする
+(setq whitespace-style '(space-mark tab-mark face spaces trailing))
+(setq whitespace-display-mappings
+'(
+;; (space-mark ?\ [?\u00B7] [?.]) ; space - centered dot
+(space-mark ?\xA0 [?\u00A4] [?_]) ; hard space - currency
+(space-mark ?\x8A0 [?\x8A4] [?_]) ; hard space - currency
+(space-mark ?\x920 [?\x924] [?_]) ; hard space - currency
+(space-mark ?\xE20 [?\xE24] [?_]) ; hard space - currency
+(space-mark ?\xF20 [?\xF24] [?_]) ; hard space - currency
+(space-mark ?\u3000 [?\u25a1] [?_ ?_]) ; full-width-space - square
+;; NEWLINE is displayed using the face `whitespace-newline'
+;; (newline-mark ?\n [?$ ?\n]) ; eol - dollar sign
+;; (newline-mark ?\n [?\u21B5 ?\n] [?$ ?\n]) ; eol - downwards arrow
+;; (newline-mark ?\n [?\u00B6 ?\n] [?$ ?\n]) ; eol - pilcrow
+;; (newline-mark ?\n [?\x8AF ?\n] [?$ ?\n]) ; eol - overscore
+;; (newline-mark ?\n [?\x8AC ?\n] [?$ ?\n]) ; eol - negation
+;; (newline-mark ?\n [?\x8B0 ?\n] [?$ ?\n]) ; eol - grade
+;;
+;; WARNING: the mapping below has a problem.
+;; When a TAB occupies exactly one column, it will display the
+;; character ?\xBB at that column followed by a TAB which goes to
+;; the next TAB column.
+;; If this is a problem for you, please, comment the line below.
+(tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; tab - left quote mark
+))
+;; whitespace-spaceの定義を全角スペースにし、色をつけて目立たせる
+(setq whitespace-space-regexp "\\(\u3000+\\)")
+(set-face-foreground 'whitespace-space "cyan")
+(set-face-background 'whitespace-space 'nil)
+;; whitespace-trailingを色つきアンダーラインで目立たせる
+(set-face-underline 'whitespace-trailing t)
+(set-face-foreground 'whitespace-trailing "cyan")
+(set-face-background 'whitespace-trailing 'nil)
+(global-whitespace-mode 1)
+;; デフォルトで視覚化を有効にする。
+(global-whitespace-mode 1)
+;;; 現在行を目立たせる
+(global-hl-line-mode)
+;;; カーソルの場所を保存する
+(require 'saveplace)
+(setq-default save-place t)
+;;; 行の先頭でC-kを一回押すだけで行全体を消去する
+(setq kill-whole-line t)
+;;; 最終行に必ず一行挿入する
+(setq require-final-newline t)
+;;; バッファの最後でnewlineで新規行を追加するのを禁止する
+(setq next-line-add-newlines nil)
+;;; 部分一致の補完機能を使う
+;;; 補完可能なものを随時表示
+;;; 少しうるさい
+(icomplete-mode 1)
+;;; 補完時に大文字小文字を区別しない
+(setq completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+;;行数を表示
+(global-linum-mode t)
+
+
+
+;;補完
+(require 'auto-complete-config)
+(ac-config-default)
+(require 'ac-c-headers)
+(require 'auto-complete-latex)
+(setq ac-l-dict-directory "~/.emacs.d/ac-l-dict/")
+(add-to-list 'ac-modes 'latex-mode)
+(add-hook 'latex-mode-hook 'ac-l-setup)
+
+;;anything
+(let ((original-browse-url-browser-function browse-url-browser-function))
+  (el-get 'sync '(anything))
+  (require 'anything-config)
+  (anything-set-anything-command-map-prefix-key
+   'anything-command-map-prefix-key "C-c C-<SPC>")
+  (define-key global-map (kbd "C-x b") 'anything-for-files)
+  (define-key global-map (kbd "C-x g") 'anything-imenu) ; experimental
+  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+  (define-key global-map (kbd "C-x C-f") 'anything-find-files)
+  (define-key anything-map (kbd "C-z") nil)
+  (define-key anything-map (kbd "C-l") 'anything-execute-persistent-action)
+  (define-key anything-map (kbd "C-o") nil)
+  (define-key anything-map (kbd "C-M-n") 'anything-next-source)
+  (define-key anything-map (kbd "C-M-p") 'anything-previous-source)
+  (el-get 'sync '(popwin))
+  (el-get 'sync '(shell-pop))
+  (setq browse-url-browser-function original-browse-url-browser-function))
+
+;ディレクトリ表示
+(require 'direx)
+(setq direx:leaf-icon "  "
+      direx:open-icon "▾"
+      direx:closed-icon "▸"
+      direx:root-item "/")
+(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+(global-set-key (kbd "C-x j") 'direx:jump-to-directory )
+
+;;popwin
+; (require 'popwin)
+;  (setq display-buffer-function 'popwin:display-buffer)
+;  (setq popwin:special-display-config '(
+;					("*Help*")
+;					("*Completions*" :noselect t)
+;					("*compilatoin*" :noselect t)
+;					("*Occur*")
+;					("*Kill Ring*")
+;					))
+ ; (setq anything-samewindow nil)
+  ;(push '("*anything*" :height 20) popwin:special-display-config)
+(setq pop-up-windows nil)
+(require 'popwin nil t)
+(when (require 'popwin nil t)
+  (setq anything-samewindow nil)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (push '("anything" :regexp t :height 0.3) popwin:special-display-config)
+  (push '("*Completions*" :height 0.4) popwin:special-display-config)
+  (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
+  (push '(direx:direx-mode :position left :width 25 :dedicated t)popwin:special-display-config)
+  )
+
+; shell-pop の設定
+(require 'shell-pop)
+(global-set-key [f8] 'shell-pop)
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode-shell "/bin/zsh")
+(shell-pop-set-window-height 60)
+
+
+;;flymake
+(require 'flymake)
+;;flymakeの色
+(set-face-background 'flymake-errline "red")
+(set-face-foreground 'flymake-errline "while")
+(set-face-background 'flymake-warnline "yellow")
+(set-face-foreground 'flymake-warnline "while")
+;; エラーをミニバッファに表示
+;; http://d.hatena.ne.jp/xcezx/20080314/1205475020
+(defun flymake-display-err-minibuf ()
+  "Displays the error/warning for the current line in the minibuffer"
+  (interactive)
+  (let* ((line-no             (flymake-current-line-no))
+         (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+         (count               (length line-err-info-list)))
+    (while (> count 0)
+      (when line-err-info-list
+        (let* ((file       (flymake-ler-file (nth (1- count) line-err-info-list)))
+               (full-file  (flymake-ler-full-file (nth (1- count) line-err-info-list)))
+               (text (flymake-ler-text (nth (1- count) line-err-info-list)))
+               (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
+          (message "[%s] %s" line text)))
+      (setq count (1- count)))))
+
+
+;;C
+(add-hook
+ 'c-mode-common-hook
+ (lambda ()
+   ;; BSDスタイルをベースにする
+   (c-set-style "bsd")
+   ;; スペースでインデントをする
+   (setq indent-tabs-mode nil)
+   ;; インデント幅を2にする
+   (setq c-basic-offset 2)
+   ;; 自動改行（auto-new-line）と
+   ;; 連続する空白の一括削除（hungry-delete）を
+   ;; 有効にする
+   (c-toggle-auto-hungry-state 1)
+   (add-to-list 'ac-sources 'ac-source-c-headers)
+   (add-to-list 'ac-sources 'ac-source-c-header-symbols t)))
+;; (save-window-excursion (shell-command (format "emacs-test -l %s %s &" buffer-file-name buffer-file-name)))
+
+;; ;; C++
+;; ;; http://d.hatena.ne.jp/pyopyopyo/20070715/
+(defun flymake-cc-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+
+(push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
+
+(add-hook 'c++-mode-hook
+  '(lambda ()
+      (flymake-mode t)))
+
+;; Perl用設定
+;; http://unknownplace.org/memo/2007/12/21#e001
+(defvar flymake-perl-err-line-patterns
+  '(("\\(.*\\) at \\([^ \n]+\\) line \\([0-9]+\\)[,.\n]" 2 3 nil 1)))
+
+(defconst flymake-allowed-perl-file-name-masks
+  '(("\\.pl$" flymake-perl-init)
+    ("\\.pm$" flymake-perl-init)
+    ("\\.t$" flymake-perl-init)
+    ("\\.cgi$" flymake-perl-init)))
+
+(defun flymake-perl-init ()
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                     'flymake-create-temp-inplace))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name))))
+    (list "perl" (list "-wc" local-file))))
+
+(defun flymake-perl-load ()
+  (interactive)
+  (defadvice flymake-post-syntax-check (before flymake-force-check-was-interrupted)
+    (setq flymake-check-was-interrupted t))
+  (ad-activate 'flymake-post-syntax-check)
+  (setq flymake-allowed-file-name-masks (append flymake-allowed-file-name-masks flymake-allowed-perl-file-name-masks))
+  (setq flymake-err-line-patterns flymake-perl-err-line-patterns)
+  (set-perl5lib)
+  (flymake-mode t))
+
+(add-hook 'cperl-mode-hook 'flymake-perl-load)
+
+;;; cperl-mode is preferred to perl-mode
+;;; "Brevity is the soul of wit" <foo at acm.org>
+;;(defalias 'perl-mode 'cperl-mode)
+;;(add-hook 'cperl-mode-hook
+;;          '(lambda ()
+;;	     (flymake-mode t)
+;;	     (require 'perl-completion)
+;;	     (perl-completion-mode t)
+;;             (when (require 'auto-complete nil t) ; no error whatever auto-complete.el is not installed.
+;;               (auto-complete-mode t)
+;;               (make-variable-buffer-local 'ac-sources)
+;;               (setq ac-sources
+;;                     '(ac-source-perl-completion)))))
+
+(autoload 'cperl-mode "cperl-mode" "alternate mode for editing Perl programs" t)
+(add-to-list 'auto-mode-alist '("\.\([pP][Llm]\|al\|t\|cgi\)\'" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
+(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+;;; cperl-mode is preferred to perl-mode
+;;; "Brevity is the soul of wit" <foo at acm.org>
+(defalias 'perl-mode 'cperl-mode)
+
+(setq cperl-indent-level 4
+      cperl-continued-statement-offset 4
+      cperl-close-paren-offset -4
+      cperl-label-offset -4
+      cperl-comment-column 40
+      cperl-highlight-variables-indiscriminately t
+      cperl-indent-parens-as-block t
+      cperl-tab-always-indent nil
+      cperl-font-lock t)
+(add-hook 'cperl-mode-hook
+          '(lambda ()
+             (progn
+               (setq indent-tabs-mode nil)
+               (setq tab-width nil)
+
+               ; perl-completion
+               (require 'auto-complete)
+               (require 'perl-completion)
+               (add-to-list 'ac-sources 'ac-source-perl-completion)
+               (perl-completion-mode t)
+              )))
+
+; perl tidy
+; sudo aptitude install perltidy
+(defun perltidy-region ()
+  "Run perltidy on the current region."
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (point) (mark) "perltidy -q" nil t)))
+(defun perltidy-defun ()
+  "Run perltidy on the current defun."
+  (interactive)
+  (save-excursion (mark-defun)
+                  (perltidy-region)))
+;;(global-set-key "C-x t" 'perltidy-region)
+;;(global-set-key "C-x C-t" 'perltidy-defun)
+
+
+;;;
+;;; sql-mode
+;;; http://www.emacswiki.org/cgi-bin/wiki.pl?SqlMode
+;;;
+
+(require 'sql)
+;(require 'sql-complete)
+(require 'sql-indent)
+(require 'sql-transform)
+(add-to-list 'ac-modes 'sql-mode)
+(autoload 'sql-mode "sql" "SQL Edit mode" t)
+(autoload 'sql-oracle "sql" "SQL Edit mode" t)
+(autoload 'sql-ms "sql" "SQL Edit mode" t)
+;; SQL mode に入った時点で sql-indent / sql-complete を読み込む
+(eval-after-load "sql"
+  '(progn
+     (load-library "sql-indent")
+     (load-library "sql-complete")
+     (load-library "sql-transform")
+     ))
+
