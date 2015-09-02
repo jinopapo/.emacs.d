@@ -90,21 +90,6 @@
 (setq next-line-add-newlines nil)
 ;;行数を表示
 (global-linum-mode t)
-;;モードラインのカスタマイズ
-(require 'powerline)
-(set-face-attribute 'mode-line nil
-:foreground "#fff"
-:background "#1e90ff"
-:box nil)
-(set-face-attribute 'powerline-active1 nil
-:foreground "#fff"
-:background "#00008b"
-:inherit 'mode-line)
-(set-face-attribute 'powerline-active2 nil
-:foreground "#fff"
-:background "#191970"
-:inherit 'mode-line)
-(powerline-default-theme)
 ;;括弧の色のカスタマイズ
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)

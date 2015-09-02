@@ -1,4 +1,3 @@
-(require 'anything-rdefs)
 (autoload 'ruby-mode "ruby-mode"
   "Mode for editing ruby source files" t)
 (add-to-list 'auto-mode-alist '("\\.rb$latex " . ruby-mode))
@@ -7,8 +6,7 @@
 (add-hook 'ruby-mode-hook
           '(lambda ()
 	     (define-key ruby-mode-map "M-C-p" 'previous-multiframe-window)
-             (define-key ruby-mode-map "M-C-n" 'next-multiframe-window)
-	     (define-key ruby-mode (kbd "M-m") 'anything-rdefs)))
+             (define-key ruby-mode-map "M-C-n" 'next-multiframe-window)))
 ;;ruby-electric
 (require 'ruby-electric)
 (add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
