@@ -11,4 +11,5 @@
 (require 'ac-c-headers)
 (setq ac-l-dict-directory "~/.emacs.d/ac-l-dict/")
 (add-to-list 'ac-modes 'latex-mode)
+(add-to-list 'ac-modes 'web-mode)
 (add-hook 'latex-mode-hook 'ac-l-setup)
