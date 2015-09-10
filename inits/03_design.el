@@ -76,7 +76,6 @@
                     :weight 'bold)
 (set-face-attribute 'whitespace-empty nil
                     :background my/bg-color)
-
 ;;; 現在行を目立たせる
 (global-hl-line-mode)
 ;;バックアップを作らない
@@ -92,4 +91,4 @@
 (global-linum-mode t)
 ;;括弧の色のカスタマイズ
 (require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
