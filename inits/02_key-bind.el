@@ -1,5 +1,6 @@
 ;; Localeに合わせた環境の設定
 (set-locale-environment nil)
+(setq-default indent-tabs-mode nil)
 ;; C-hでバックスペース
 (keyboard-translate ?\C-h ?\C-?)
 ;; 基本

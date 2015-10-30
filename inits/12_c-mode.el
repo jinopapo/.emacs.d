@@ -11,6 +11,5 @@
    ;; 自動改行（auto-new-line）と
    ;; 連続する空白の一括削除（hungry-delete）を
    ;; 有効にする
-   (c-toggle-auto-hungry-state 1)
    (add-to-list 'ac-sources 'ac-source-c-headers)
    (add-to-list 'ac-sources 'ac-source-c-header-symbols t)))

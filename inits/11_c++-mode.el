@@ -13,4 +13,5 @@
 (add-hook 'c++-mode-hook
   '(lambda ()
       (flymake-mode t)
-      (flex-autopair-mode t)))
+      (flex-autopair-mode t)
+      (auto-new-line nil)))
