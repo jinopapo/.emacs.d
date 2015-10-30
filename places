@@ -1,0 +1,7 @@
+;;; -*- coding: utf-8 -*-
+(("/Users/ji-no/.emacs.d/"
+  (dired-filename . "/Users/ji-no/.emacs.d/inits"))
+ ("/Users/ji-no/.emacs.d/inits/"
+  (dired-filename . "/Users/ji-no/.emacs.d/inits/02_key-bind.el"))
+ ("/Users/ji-no/.emacs.d/inits/02_key-bind.el" . 1250)
+ ("/Users/ji-no/.emacs.d/recentf" . 262))

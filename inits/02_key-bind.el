@@ -25,3 +25,7 @@
 ;; ウィンドウ移動
 ;; 前のウィンドウへ移動
 (define-key global-map (kbd "C-x p") 'previous-multiframe-window)
+
+;;mac
+(when (eq system-type 'darwin)
+  (setq ns-command-modifier (quote meta)))
