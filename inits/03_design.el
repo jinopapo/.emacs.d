@@ -5,7 +5,7 @@
         '(background-color . "#221122")
         '(foreground-color . "#F0F8FF")
         '(cursor-color . "#FFFFFF")
-	'(alpha . 80)
+	'(alpha . 70)
         )
        default-frame-alist)
       )
