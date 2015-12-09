@@ -78,8 +78,11 @@
                     :background my/bg-color)
 ;;; 現在行を目立たせる
 (global-hl-line-mode)
-;;バックアップを作らない
-(setq backup-inhibited t)
+;;; *.~ とかのバックアップファイルを作らない
+(setq make-backup-files nil)
+;;; .#* とかのバックアップファイルを作らない
+(setq auto-save-default nil)
+
 ;;; カーソルの場所を保存する
 (require 'saveplace)
 (setq-default save-place t)
