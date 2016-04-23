@@ -59,8 +59,7 @@
 ;; 保存前に自動でクリーンアップ
 (setq whitespace-action '(auto-cleanup))
 
-(global-whitespace-mode 1)
-
+(setq whitespace-global-modes '(not direx:direx-mode))
 (defvar my/bg-color "#232323")
 (set-face-attribute 'whitespace-trailing nil
                     :background my/bg-color
