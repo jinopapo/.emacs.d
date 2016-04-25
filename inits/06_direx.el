@@ -1,6 +1,7 @@
 ;ディレクトリ表示
 (require 'direx)
-(setq direx:leaf-icon "  "
+(set-face-foreground 'dired-directory "orange")
+(setq direx:leaf-icon " "
       direx:open-icon "▾"
       direx:closed-icon "▸"
       direx:root-item "/")
