@@ -5,4 +5,5 @@
 ;; MELPAを追加
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
-
+(exec-path-from-shell-initialize)
+o

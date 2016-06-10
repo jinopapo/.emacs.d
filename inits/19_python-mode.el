@@ -1,9 +1,11 @@
+(require 'ac-python)
 (add-hook 'python-mode-hook
                    '(lambda ()
                         (setq indent-tabs-mode nil)
                         (setq indent-level 2)
                         (setq python-indent 2)
                         (setq tab-width 2)))
+(add-to-list 'ac-modes 'python-mode)
 
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 (when (load "flymake" t)
@@ -22,3 +24,6 @@
     (let ((help (get-char-property (point) 'help-echo)))
       (if help (message "%s" help)))))
 (add-hook 'post-command-hook 'flymake-show-help)
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
